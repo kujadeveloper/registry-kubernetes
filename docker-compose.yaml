@@ -1,0 +1,19 @@
+version: '3'
+services:
+  registry:
+    image: registry:latest
+    ports:
+    - "5000:5000"
+    environment:
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+      REGISTRY_AUTH: htpasswd
+      # REGISTRY_HTTP_TLS_CERTIFICATE: /cert/registry.crt
+      # REGISTRY_HTTP_TLS_KEY: /cert/registry.key
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/docker
+    volumes:
+      - "./auth:/auth"
+      - "./cert:/cert"
+      - "./config.yml:/etc/docker/registry/config.yml"
+      - ".:/var/docker"
+    restart: always
